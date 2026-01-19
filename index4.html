@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dēmárātos — Business Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  /* STRICT COLOR PALETTE */
+  --navy: #14213d;        /* Deep Navy for Text/Headers */
+  --navy-dark: #0a111f;   /* Darker Navy for Footer/Ticker */
+  --cream: #f4f1ea;       /* Warm Paper Background */
+  --cream-light: #fdfbf7; /* Lighter Cream for Cards */
+  --muted-blue: #5b7c99;  /* Sophisticated Accent */
+  --muted-blue-dark: #3e5c76; /* Darker Blue for Hovers */
+  
+  /* UTILITY COLORS (Kept subtle) */
+  --danger: #b91c1c;      /* Deep Red for negative financial data */
+  --success: #15803d;     /* Deep Green for positive financial data */
+  --border: #dcd9d0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body { 
+  background: var(--cream); 
+  color: var(--navy); 
+  font-family: 'Inter', sans-serif; 
+  line-height:1.7; 
+  overflow-x: hidden; 
+}
+
+h1, h2, h3, .logo {
+  font-family: 'Playfair Display', serif; /* Serif font for premium feel */
+}
+
+/* STOCK TICKER */
+.ticker-wrap {
+  position: fixed; top: 0; width: 100%; height: 40px;
+  background-color: var(--navy-dark);
+  z-index: 2000;
+  border-bottom: 1px solid #2a3b55;
+  color: var(--cream);
+  font-family: 'JetBrains Mono', monospace;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker {
+  display: inline-block;
+  line-height: 40px;
+  animation: ticker 35s linear infinite;
+}
+.ticker-item { display: inline-block; padding: 0 2rem; font-size: 0.85rem; opacity: 0.9; }
+.up { color: #86efac; } /* Muted Light Green */
+.down { color: #fca5a5; } /* Muted Light Red */
+
+@keyframes ticker {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* NAV */
+header { 
+  margin-top: 40px; 
+  background: rgba(244, 241, 234, 0.95); /* Cream semi-transparent */
+  backdrop-filter: blur(10px); 
+  position: sticky; top: 40px; z-index: 1000; 
+  border-bottom: 1px solid var(--border); 
+}
+nav { 
+  display:flex; justify-content:space-between; align-items:center; 
+  padding: 20px 0; max-width:1200px; margin:auto; padding-left: 20px; padding-right: 20px;
+}
+.logo { font-size:26px; font-weight:700; color: var(--navy); letter-spacing: -0.5px; }
+nav a { text-decoration:none; margin-left:30px; color:var(--navy); font-weight:500; font-size: 15px; transition: 0.3s; }
+nav a:hover { color: var(--muted-blue); }
+
+/* BUTTONS */
+.btn { 
+  padding: 14px 28px; border-radius: 4px; font-weight: 500; 
+  text-decoration: none; display: inline-block; transition: 0.3s; 
+  cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+}
+.btn-primary { 
+  background: var(--muted-blue); 
+  color: white; 
+}
+.btn-primary:hover { background: var(--muted-blue-dark); transform: translateY(-1px); }
+.btn-outline {
+  border: 1px solid var(--navy);
+  color: var(--navy);
+  background: transparent;
+}
+.btn-outline:hover { background: var(--navy); color: var(--cream); }
+
+/* HERO */
+.hero {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 140px 0 100px;
+  text-align: center;
+}
+.hero h1 { 
+  font-size: clamp(40px, 5vw, 68px); 
+  line-height: 1.1; 
+  margin-bottom: 24px; 
+  color: var(--cream);
+}
+.hero p { 
+  font-size: 19px; 
+  color: #aebfd1; /* Soft blue-grey text */
+  max-width: 650px; 
+  margin: 0 auto 40px auto; 
+  font-weight: 300;
+}
+
+/* ORIGIN STORY */
+.story-section { padding: 100px 0; background: var(--cream); }
+.container { max-width:1100px; margin:auto; padding:0 20px; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+
+.story-content h2 { font-size: 38px; margin-bottom: 25px; color: var(--navy); }
+.story-content p { margin-bottom: 18px; color: #4a5a6a; font-size: 17px; }
+
+.quote-box {
+  background: #ebe8e0; /* Slightly darker cream */
+  border-left: 4px solid var(--muted-blue);
+  padding: 25px;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 20px;
+  color: var(--navy);
+  margin: 30px 0;
+}
+.story-visual {
+  height: 450px;
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 20px 20px 0px rgba(20, 33, 61, 0.05); /* Solid shadow for retro feel */
+}
+
+/* CARDS */
+.section-header { text-align: center; margin-bottom: 60px; padding-top: 80px; }
+.section-header h2 { font-size: 36px; color: var(--navy); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+.card {
+  background: var(--cream-light);
+  padding: 40px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.card:hover {
+  border-color: var(--muted-blue);
+  box-shadow: 0 10px 30px rgba(91, 124, 153, 0.15);
+  transform: translateY(-5px);
+}
+.card-icon { 
+  font-size: 32px; margin-bottom: 20px; display: block; 
+  color: var(--muted-blue);
+}
+.card h3 { font-size: 22px; margin-bottom: 12px; color: var(--navy); }
+.card p { color: #5c6b7f; font-size: 15px; margin-bottom: 20px; }
+.card-arrow { color: var(--muted-blue); font-weight: 600; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* MODALS */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(20, 33, 61, 0.7); /* Navy Overlay */
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.modal-overlay.open { display: flex; opacity: 1; }
+
+.modal-content {
+  background: var(--cream-light);
+  width: 90%; max-width: 800px;
+  border-radius: 8px;
+  padding: 50px;
+  position: relative;
+  border: 1px solid var(--border);
+  transform: translateY(20px); transition: transform 0.3s ease;
+}
+.modal-overlay.open .modal-content { transform: translateY(0); }
+
+.close-btn {
+  position: absolute; top: 20px; right: 20px;
+  background: transparent; border: 1px solid var(--border);
+  width: 30px; height: 30px; border-radius: 50%;
+  cursor: pointer; color: var(--navy); font-size: 18px;
+}
+.close-btn:hover { border-color: var(--navy); }
+
+.modal-body { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; margin-top: 20px; }
+.modal-viz { 
+  background: #ebe8e0; 
+  border-radius: 4px; padding: 30px; 
+  display: flex; align-items: center; justify-content: center; flex-direction: column; 
+}
+
+/* CSS CHARTS (Muted Blue Palette) */
+.bar-chart { display: flex; align-items: flex-end; gap: 15px; height: 120px; width: 100%; border-bottom: 1px solid var(--navy); }
+.bar { width: 40px; background: var(--muted-blue); position: relative; }
+.bar.danger { background: #b91c1c; opacity: 0.8; }
+.bar::before { content: attr(data-val); position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 12px; color: var(--navy); font-weight: bold; }
+
+.pie-chart-css {
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(#b91c1c 0% 20%, var(--muted-blue) 20% 100%);
+  position: relative;
+}
+.pie-chart-css::after {
+  content: "80/20"; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  background: #ebe8e0; width: 90px; height: 90px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--navy);
+}
+
+/* ANIMATION UTILS */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@media(max-width: 800px) {
+  .story-grid, .modal-body { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">S&P 500 <span class="up">▲ 0.84%</span></span>
+    <span class="ticker-item">NASDAQ <span class="up">▲ 1.25%</span></span>
+    <span class="ticker-item">DOW JONES <span class="down">▼ 0.12%</span></span>
+    <span class="ticker-item">FTSE 100 <span class="up">▲ 0.45%</span></span>
+    <span class="ticker-item">GOLD <span class="up">▲ 0.90%</span></span>
+    <span class="ticker-item">CRUDE OIL <span class="down">▼ 1.10%</span></span>
+  </div>
+</div>
+
+<header>
+  <nav>
+    <div class="logo">Dēmárātos.</div>
+    <div>
+      <a href="#origin">The Origin</a>
+      <a href="#problems">Analysis</a>
+      <a href="#solutions">Platform</a>
+      <a href="index.html" class="btn btn-primary" style="margin-left: 20px;">Client Login</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1 class="reveal">Intelligence, <br>not intuition.</h1>
+    <p class="reveal">The enterprise-grade risk management platform <br>that helps SMEs see the future of their cashflow.</p>
+    <div class="reveal">
+      <a href="#origin" class="btn btn-primary">Discover the Origin</a>
+      <a href="#" class="btn btn-outline" style="border-color: var(--cream); color: var(--cream); margin-left: 10px;">View Demo</a>
+    </div>
+  </div>
+</section>
+
+<section id="origin" class="story-section">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-content reveal">
+        <h2>The Origin of Dēmárātos</h2>
+        <p>Dēmárātos was born from watching good businesses fail for the wrong reasons. Not because they lacked customers. Not because they lacked effort. <strong>But because they were flying blind.</strong></p>
+        <p>We saw the same pattern everywhere: sales dropping without warning, profits disappearing quietly, cashflow breaking suddenly.</p>
+        <div class="quote-box">
+          "Businesses don’t fail because they lack data. They fail because they can’t understand it in time."
+        </div>
+        <p>The name comes from history: Dēmárātos was someone who saw danger before others did and warned in advance. We turn businesses from reactive to predictive.</p>
+      </div>
+      <div class="story-visual reveal">
+        <div style="width: 120px; height: 120px; border: 2px solid var(--muted-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 80px; height: 80px; background: var(--muted-blue); border-radius: 50%; opacity: 0.2;"></div>
+            <div style="width: 10px; height: 10px; background: var(--navy); border-radius: 50%; position: absolute;"></div>
+        </div>
+        <div style="position: absolute; bottom: 30px; font-family: 'JetBrains Mono'; font-size: 12px; color: var(--muted-blue);">SYSTEM: ONLINE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="problems" style="padding-bottom: 80px;">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>Where Businesses Bleed</h2>
+      <p style="color: #64748b;">Click a card to view the analysis engine.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal" onclick="openModal('modal-leakage')">
+        <span class="card-icon">💧</span>
+        <h3>01. Leakage Detection</h3>
+        <p>Which specific customer or product is actually costing you money despite high sales volume?</p>
+        <div class="card-arrow">View Analysis →</div>
+      </div>
+      <div class="card reveal" onclick="openModal('modal-risk')">
+        <span class="card-icon">📉</span>
+        <h3>02. Risk Forecasting</h3>
+        <p>At your current burn rate, which specific week will your cashflow hit the "Red Zone"?</p>
+        <div class="card-arrow">View Forecast →</div>
+      </div>
+      <div class="card reveal" onclick="openModal('modal-stock')">
+        <span class="card-icon">📦</span>
+        <h3>03. Stock Intelligence</h3>
+        <p>Which 20% of your inventory is tying up 80% of your capital without moving?</p>
+        <div class="card-arrow">Audit Stock →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solutions" style="background: #ebe8e0; padding: 100px 0;">
+  <div class="container">
+    <div class="section-header reveal" style="padding-top: 0;">
+      <h2>The Platform Advantage</h2>
+    </div>
+    <div class="grid">
+      <div class="card reveal" onclick="openModal('modal-bi')">
+        <span class="card-icon">📊</span>
+        <h3>Real-Time BI</h3>
+        <p>Live connections to accounting & sales data. No more monthly reports that are "too late."</p>
+        <div class="card-arrow">Live Sync →</div>
+      </div>
+      <div class="card reveal" onclick="openModal('modal-alert')">
+        <span class="card-icon">⚠️</span>
+        <h3>Early Warning System</h3>
+        <p>Automated alerts when profit margins dip below a set threshold or risk is detected.</p>
+        <div class="card-arrow">Check Alerts →</div>
+      </div>
+      <div class="card reveal" onclick="openModal('modal-ai')">
+        <span class="card-icon">🔮</span>
+        <h3>Predictive Modeling</h3>
+        <p>AI-driven "What If" scenarios. See the impact of a price change before you commit.</p>
+        <div class="card-arrow">Run Model →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="modal-leakage" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">×</button>
+    <h2>Leakage Detection</h2>
+    <div class="modal-body">
+      <div>
+        <p><strong>The Hidden Killer.</strong> Many businesses celebrate high revenue without realizing that certain clients or products have negative margins due to shipping, returns, or service costs.</p>
+        <p>Dēmárātos pulls granular cost data for every transaction to flag "Zombie Revenue."</p>
+      </div>
+      <div class="modal-viz">
+        <div class="bar-chart">
+          <div class="bar" style="height: 80%; opacity: 0.5;" data-val="Rev"></div>
+          <div class="bar" style="height: 60%; opacity: 0.5;" data-val="Cost"></div>
+          <div class="bar danger" style="height: 20%;" data-val="Loss"></div>
+        </div>
+        <p style="font-size: 12px; margin-top: 15px; font-family: 'JetBrains Mono';">ANALYSIS: NEGATIVE MARGIN DETECTED</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-risk" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">×</button>
+    <h2>Risk Forecasting</h2>
+    <div class="modal-body">
+      <div>
+        <p>Cashflow crunches usually happen 6 weeks after a bad decision. By then, it's too late.</p>
+        <p>We project your bank balance 90 days out based on AP/AR trends, pinpointing the exact date you enter the "Red Zone."</p>
+      </div>
+      <div class="modal-viz">
+        <svg viewBox="0 0 100 50" width="100%">
+          <path d="M0,40 Q25,10 50,30 T100,45" fill="none" stroke="#b91c1c" stroke-width="2" />
+          <line x1="0" y1="40" x2="100" y2="40" stroke="#999" stroke-dasharray="4" />
+        </svg>
+        <p style="color: #b91c1c; font-weight: bold; margin-top:10px; font-size: 14px;">Warning: Week 4 Dip</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-stock" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-btn" onclick="closeModal()">×</button>
+    <h2>Stock Intelligence</h2>
+    <div class="modal-body">
+      <div>
+        <p>The Pareto Principle applies brutally to inventory: 80% of your cash is often stuck in 20% of stock that isn't moving.</p>
+        <p>We categorize inventory by "Velocity" to tell you exactly what to liquidate.</p>
+      </div>
+      <div class="modal-viz">
+        <div class="pie-chart-css"></div>
+        <p style="font-size: 12px; margin-top: 15px;">Red Zone: Dead Capital</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modal-bi" class="modal-overlay"><div class="modal-content"><button class="close-btn" onclick="closeModal()">×</button><h2>Real-Time BI</h2><p>Live sync is active.</p></div></div>
+<div id="modal-alert" class="modal-overlay"><div class="modal-content"><button class="close-btn" onclick="closeModal()">×</button><h2>System Alerts</h2><p>Monitoring active.</p></div></div>
+<div id="modal-ai" class="modal-overlay"><div class="modal-content"><button class="close-btn" onclick="closeModal()">×</button><h2>Predictive Modeling</h2><p>Simulation engine ready.</p></div></div>
+
+<script>
+  // SCROLL REVEAL
+  function reveal() {
+    var reveals = document.querySelectorAll(".reveal");
+    for (var i = 0; i < reveals.length; i++) {
+      var windowHeight = window.innerHeight;
+      var elementTop = reveals[i].getBoundingClientRect().top;
+      var elementVisible = 100;
+      if (elementTop < windowHeight - elementVisible) {
+        reveals[i].classList.add("active");
+      }
+    }
+  }
+  window.addEventListener("scroll", reveal);
+  reveal(); 
+
+  // MODAL LOGIC
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.add('open');
+    document.body.style.overflow = 'hidden'; 
+  }
+
+  function closeModal() {
+    var modals = document.querySelectorAll('.modal-overlay');
+    modals.forEach(modal => modal.classList.remove('open'));
+    document.body.style.overflow = 'auto';
+  }
+
+  window.onclick = function(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+      closeModal();
+    }
+  }
+</script>
+
+</body>
+</html>
